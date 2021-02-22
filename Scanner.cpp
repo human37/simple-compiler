@@ -1,7 +1,8 @@
 #include "Scanner.h"
 
 ScannerClass::ScannerClass(std::string input)
-: mFileName(input) {
+: mFileName(input), mLineNumber(1) {
+    MSG("initializing ScannerClass constructor");
     mFin.open(mFileName, std::ios::binary);
     if (!mFin.is_open())
     {
@@ -12,7 +13,13 @@ ScannerClass::ScannerClass(std::string input)
 
 ScannerClass::~ScannerClass()
 {
+    MSG("closing the file stream");
     mFin.close();
+}
+
+int ScannerClass::getLineNumber()
+{
+    return mLineNumber;
 }
 
 Token ScannerClass::getNextToken()
@@ -40,6 +47,7 @@ Token ScannerClass::getNextToken()
         std::cout << "bad token found bro: \n" << type << "\n";
         exit(EXIT_FAILURE);
     }
+    MSG("type is: " + type);
     Token token = Token(type, lexeme);
     return token;
 }
