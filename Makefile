@@ -4,7 +4,7 @@ run: compiler
 	./$(NAME).exe
 
 compiler:
-	g++ *.cpp -o $(NAME).exe
+	g++ *.cpp -std=c++11 -o $(NAME).exe
 
 clean:
 	rm *.o *.exe

@@ -2,6 +2,7 @@
 #include "Token.h"
 #include "Scanner.h"
 #include "StateMachine.h"
+#include "Node.h"
 
 void testToken()
 {
@@ -22,7 +23,21 @@ void testScanner()
     }
 }
 
+void testNodes()
+{
+    StartNode * variable = new StartNode(new ProgramNode(new BlockNode(new StatementGroupNode())));
+    delete variable;
+
+    PlusNode * plusvariable = new PlusNode(new IntegerNode(5), new IntegerNode(4));
+    std::cout << "5 + 4 = " << plusvariable->Evaluate() << std::endl;
+    delete plusvariable;
+
+    MinusNode * minusvariable = new MinusNode(new IntegerNode(5), new IntegerNode(4));
+    std::cout << "5 - 4 = " << minusvariable->Evaluate() << std::endl;
+    delete minusvariable;
+}
+
 int main()
 {
-   testScanner(); 
+    testNodes();
 }
