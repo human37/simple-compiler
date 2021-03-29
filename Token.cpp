@@ -5,14 +5,21 @@
 #include "Token.h"
 
 const std::string gTokenTypeNames[] = {
-    "VOID", "MAIN", "INT", "COUT", "RESERVED_COUNT",
-    "LESS", "LESS_EQUAL", "GREATER", "GREATER_EQUAL", "EQUAL", "NOT_EQUAL",
-    "INSERTION", "EXTRACTION", "ASSIGNMENT", "PLUS", "MINUS", "MULTIPLY", "DIVIDE", "NOT",
-    "SEMICOLON", "LEFT_PAREN", "RIGHT_PAREN", "LEFT_BRACE", "RIGHT_BRACE",
+    "VOID", "MAIN", "INT", "COUT", "IF",
+    "WHILE", "FOR", "RESERVED_COUNT",
+    "SEMICOLON",
+    "LEFT_PAREN", "RIGHT_PAREN",
+    "LEFT_BRACE", "RIGHT_BRACE",
+    "LESS", "LESS_EQUAL",
+    "GREATER", "GREATER_EQUAL",
+    "EQUAL", "NOT_EQUAL",
+    "BITWISE_AND", "BITWISE_OR",
+    "NOT", "AND", "OR",
+    "INSERTION", "EXTRACTION", "ASSIGNMENT",
+    "PLUS", "MINUS", "MULTIPLY", "DIVIDE",
     "IDENTIFIER", "INTEGER",
     "BAD", "END_FILE"};
 
-// Helper for case-insensitive string comparisons
 std::string toUpper(std::string in)
 {
     std::string up = in;

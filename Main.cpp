@@ -39,5 +39,6 @@ void testNodes()
 
 int main()
 {
-    testNodes();
+    // testNodes();
+    testScanner();
 }

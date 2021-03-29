@@ -6,20 +6,30 @@
 
 enum TokenType
 {
-    // Reserved Words:
     VOID_TOKEN,
     MAIN_TOKEN,
     INT_TOKEN,
     COUT_TOKEN,
+    IF_TOKEN,
+    WHILE_TOKEN,
+    FOR_TOKEN,
     RESERVED_COUNT,
-    // Relational Operators:
+    SEMICOLON_TOKEN,
+    LEFT_PAREN_TOKEN,
+    RIGHT_PAREN_TOKEN,
+    LEFT_BRACE_TOKEN,
+    RIGHT_BRACE_TOKEN,
     LESS_TOKEN,
     LESS_EQUAL_TOKEN,
     GREATER_TOKEN,
     GREATER_EQUAL_TOKEN,
     EQUAL_TOKEN,
     NOT_EQUAL_TOKEN,
-    // Other Operators:
+    BITWISE_AND_TOKEN,
+    BITWISE_OR_TOKEN,
+    NOT_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
     INSERTION_TOKEN,
     EXTRACTION_TOKEN,
     ASSIGNMENT_TOKEN,
@@ -27,14 +37,6 @@ enum TokenType
     MINUS_TOKEN,
     MULTIPLY_TOKEN,
     DIVIDE_TOKEN,
-    NOT_TOKEN,
-    // Other Characters:
-    SEMICOLON_TOKEN,
-    LEFT_PAREN_TOKEN,
-    RIGHT_PAREN_TOKEN,
-    LEFT_BRACE_TOKEN,
-    RIGHT_BRACE_TOKEN,
-    // Other Token Types:
     IDENTIFIER_TOKEN,
     INTEGER_TOKEN,
     BAD_TOKEN,

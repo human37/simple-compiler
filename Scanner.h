@@ -15,11 +15,13 @@ public:
     ScannerClass(std::string input);
     ~ScannerClass();
     Token getNextToken();
+    Token peekNextToken();
     int getLineNumber();
 
 private:
     std::ifstream mFin;
     int mLineNumber;
+    int mColumnNumber;
     std::string mFileName;
 };
 
