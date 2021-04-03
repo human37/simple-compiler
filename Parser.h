@@ -30,6 +30,8 @@ private:
     ExpressionNode *Factor();
     IdentifierNode *Identifier();
     IntegerNode *Integer();
+    ExpressionNode *And();
+    ExpressionNode *Or();
 
 public:
     Parser(ScannerClass *scanner, SymbolTableClass *table);

@@ -165,7 +165,31 @@ CoutStatementNode *Parser::CoutStatement()
 
 ExpressionNode *Parser::Expression()
 {
-    return this->Relational();
+    return this->Or();
+}
+
+ExpressionNode *Parser::Or()
+{
+    ExpressionNode *current = And();
+    TokenType tt = this->scanner->peekNextToken().GetTokenType();
+    if (tt == OR_TOKEN)
+    {
+        Match(tt);
+        current = new OrNode(current, Factor());
+    }
+    return current;
+}
+
+ExpressionNode *Parser::And()
+{
+    ExpressionNode *current = Relational();
+    TokenType tt = this->scanner->peekNextToken().GetTokenType();
+    if (tt == AND_TOKEN)
+    {
+        Match(tt);
+        current = new AndNode(current, Factor());
+    }
+    return current;
 }
 
 ExpressionNode *Parser::Relational()
@@ -207,14 +231,7 @@ ExpressionNode *Parser::Relational()
         this->Match(t);
         en = new BitwiseOrNode(en, this->PlusMinus());
         break;
-    case AND_TOKEN:
-        this->Match(t);
-        en = new AndNode(en, this->PlusMinus());
-        break;
-    case OR_TOKEN:
-        this->Match(t);
-        en = new OrNode(en, this->PlusMinus());
-        break;
+    
     }
     return en;
 }

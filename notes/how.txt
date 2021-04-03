@@ -1,0 +1,3 @@
+how to make repeat loop
+
+1. make keyword "repeat"

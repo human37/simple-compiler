@@ -40,7 +40,7 @@ enum TokenType
     IDENTIFIER_TOKEN,
     INTEGER_TOKEN,
     BAD_TOKEN,
-    ENDFILE_TOKEN
+    ENDFILE_TOKEN,
 };
 
 class Token

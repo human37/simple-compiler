@@ -22,6 +22,10 @@ StateMachine::StateMachine()
     this->legalMoves[START_STATE][PLUS_CHAR] = PLUS_STATE;
     this->legalMoves[START_STATE][MINUS_CHAR] = MINUS_STATE;
     this->legalMoves[START_STATE][FORWARD_SLASH_CHAR] = DIVIDE_STATE;
+    this->legalMoves[START_STATE][AND_CHAR] = BITWISE_AND_STATE;
+    this->legalMoves[BITWISE_AND_STATE][AND_CHAR] = AND_STATE;
+    this->legalMoves[START_STATE][OR_CHAR] = BITWISE_OR_STATE;
+    this->legalMoves[BITWISE_OR_STATE][OR_CHAR] = OR_STATE;
 
     // line comments
     this->legalMoves[DIVIDE_STATE][FORWARD_SLASH_CHAR] = LINE_COMMENT_STATE;
@@ -86,6 +90,8 @@ StateMachine::StateMachine()
     this->correspondingTokenTypes[MULTIPLY_STATE] = MULTIPLY_TOKEN;
     this->correspondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
     this->correspondingTokenTypes[ENDFILE_STATE] = ENDFILE_TOKEN;
+    this->correspondingTokenTypes[AND_STATE] = AND_TOKEN;
+    this->correspondingTokenTypes[OR_STATE] = OR_TOKEN;
 }
 
 MachineState StateMachine::UpdateState(char currentCharacter, TokenType &correspondingTokenType)
@@ -125,6 +131,10 @@ MachineState StateMachine::UpdateState(char currentCharacter, TokenType &corresp
         charType = LESS_CHAR;
     else if (currentCharacter == '>')
         charType = GREATER_CHAR;
+    else if (currentCharacter == '|')
+        charType = OR_CHAR;
+    else if (currentCharacter == '&')
+        charType = AND_CHAR;
     else if (currentCharacter == EOF)
         charType = ENDFILE_CHAR;
 
