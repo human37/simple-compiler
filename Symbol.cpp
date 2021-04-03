@@ -1,16 +1,17 @@
 #include "Symbol.h"
 
 SymbolTableClass::SymbolTableClass()
-{}
+    : symbolTable(std::vector<Variable>{}) {}
 
 SymbolTableClass::~SymbolTableClass()
-{}
+{
+}
 
 bool SymbolTableClass::Exists(const std::string &s)
 {
-    for (int i = 0; i < symbolTable.size(); i++)
+    for (auto v : this->symbolTable)
     {
-        if (symbolTable[i].mLabel == s)
+        if (v.mLabel == s)
             return true;
     }
     return false;
@@ -18,7 +19,7 @@ bool SymbolTableClass::Exists(const std::string &s)
 
 void SymbolTableClass::AddEntry(const std::string &s)
 {
-    if (!Exists(s)) 
+    if (!Exists(s))
     {
         Variable v = {s, 0};
         symbolTable.push_back(v);
@@ -27,27 +28,25 @@ void SymbolTableClass::AddEntry(const std::string &s)
 
 int SymbolTableClass::GetValue(const std::string &s)
 {
-    if (!Exists(s))
-    {
-        std::cout << "error, label:" << s << " does not exist" << std::endl;
-        exit(EXIT_FAILURE);
-    }
     int index = GetIndex(s);
     if (index != -1)
         return symbolTable[index].mValue;
-    return -1;
+    else 
+    {
+        std::cout << "variable does not exist: " << s << std::endl;
+        exit(EXIT_FAILURE);
+    }
 }
 
 void SymbolTableClass::SetValue(const std::string &s, int v)
 {
-    if (!Exists(s))
-    {
-        std::cout << "error, label:" << s << " does not exist" << std::endl;
-        exit(EXIT_FAILURE);
-    }
     int index = GetIndex(s);
     if (index != -1)
         symbolTable[index].mValue = v;
+    else
+    {
+        std::cout << "variable does not exist: " << s << std::endl;
+    }
 }
 
 int SymbolTableClass::GetIndex(const std::string &s)
@@ -58,4 +57,8 @@ int SymbolTableClass::GetIndex(const std::string &s)
             return i;
     }
     return -1;
+}
+
+int SymbolTableClass::GetCount() {
+    return this->symbolTable.size();
 }

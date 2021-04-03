@@ -3,6 +3,7 @@
 #include "Scanner.h"
 #include "StateMachine.h"
 #include "Node.h"
+#include "Parser.h"
 
 void testToken()
 {
@@ -15,12 +16,12 @@ void testToken()
 void testScanner()
 {
     ScannerClass scanner("input.c"); 
-    while(scanner.getNextToken().GetTokenType() != ENDFILE_TOKEN)
+    Token tc;
+    do
     {
-        std::cout << " - - - - - - start - - - - - - " << std::endl;
-        std::cout << scanner.getNextToken() << " line: " << scanner.getLineNumber() << std::endl;
-        std::cout << " - - - - - -  end  - - - - - - " << std::endl << std::endl;
-    }
+        tc = scanner.getNextToken();
+        std::cout << tc << std::endl;
+    } while (tc.GetTokenType() != ENDFILE_TOKEN);
 }
 
 void testNodes()
@@ -37,8 +38,16 @@ void testNodes()
     delete minusvariable;
 }
 
+void testInterpreter()
+{
+    ScannerClass *scanner = new ScannerClass("input.c");
+    SymbolTableClass *symbols = new SymbolTableClass();
+    Parser parser(scanner, symbols);
+
+    parser.Start()->Interpret();
+}
+
 int main()
 {
-    // testNodes();
-    testScanner();
+    testInterpreter();
 }

@@ -5,11 +5,13 @@
 #include "Token.h"
 
 const std::string gTokenTypeNames[] = {
-    "VOID", "MAIN", "INT", "COUT", "IF",
-    "WHILE", "FOR", "RESERVED_COUNT",
+    // Reserved words
+    "VOID", "MAIN", "INT", "COUT", "IF", "WHILE", "FOR", "RESERVED_COUNT",
+    // Scope tokens
     "SEMICOLON",
     "LEFT_PAREN", "RIGHT_PAREN",
     "LEFT_BRACE", "RIGHT_BRACE",
+    // Relational tokens
     "LESS", "LESS_EQUAL",
     "GREATER", "GREATER_EQUAL",
     "EQUAL", "NOT_EQUAL",
@@ -17,6 +19,7 @@ const std::string gTokenTypeNames[] = {
     "NOT", "AND", "OR",
     "INSERTION", "EXTRACTION", "ASSIGNMENT",
     "PLUS", "MINUS", "MULTIPLY", "DIVIDE",
+    // Other token types
     "IDENTIFIER", "INTEGER",
     "BAD", "END_FILE"};
 
@@ -40,9 +43,12 @@ Token::Token()
 }
 
 Token::Token(TokenType type, const std::string &lexeme)
-    : type(type), lexeme(lexeme)
+    : type(type), lexeme(lexeme), filename(""), line(1)
 {
 }
+
+Token::Token(TokenType type, const std::string& lexeme, std::string fileName, int line)
+    : type(type), lexeme(lexeme), filename(fileName), line(line) {}
 
 Token::~Token()
 {
@@ -65,10 +71,8 @@ std::string Token::GetLexeme() const
 
 void Token::CheckReserved()
 {
-    for (int i = 0; i < RESERVED_COUNT; i++)
-    {
-        if (toUpper(this->lexeme) == gTokenTypeNames[i])
-        {
+    for (int i = 0; i < RESERVED_COUNT; i++) {
+        if (toUpper(this->lexeme) == gTokenTypeNames[i]) {
             this->type = TokenType(i);
         }
     }

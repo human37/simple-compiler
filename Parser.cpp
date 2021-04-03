@@ -19,7 +19,7 @@ Token Parser::Match(TokenType expected)
         std::cerr << "Expected token type " << Token::GetTokenTypeName(expected) << ", but got type " << t.GetTokenTypeName() << ": " << t << std::endl;
         exit(1);
     }
-
+    MSG("matched lexeme: " << t.GetLexeme() << "    token: " << t.GetTokenTypeName());
     return t;
 }
 
@@ -62,8 +62,6 @@ StatementGroupNode *Parser::StatementGroup()
     } while (sn != NULL);
     return sgn;
 }
-
-// Statements
 
 StatementNode *Parser::Statement()
 {
@@ -285,7 +283,7 @@ ExpressionNode *Parser::Factor()
         this->Match(RIGHT_PAREN_TOKEN);
         break;
     default:
-        std::cerr << "Error: expected factor type, got " << Token::GetTokenTypeName(t) << std::endl;
+        std::cerr << "error: expected factor type, got: " << Token::GetTokenTypeName(t) << std::endl;
         exit(EXIT_FAILURE);
     }
     return en;

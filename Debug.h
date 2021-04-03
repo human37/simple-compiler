@@ -4,7 +4,7 @@
 #include <iostream>
 
 #if !defined(ShowMessages)
-#define ShowMessages 0
+#define ShowMessages 1
 #endif // ShowMessages
 
 #if ShowMessages

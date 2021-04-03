@@ -48,12 +48,15 @@ class Token
 private:
     TokenType type;
     std::string lexeme;
+    std::string filename;
+    int line;
 
 public:
     static const std::string &GetTokenTypeName(TokenType type);
 
     Token();
     Token(TokenType type, const std::string &lexeme);
+    Token(TokenType type, const std::string& lexeme, std::string fileName, int line);
     ~Token();
 
     const std::string &GetTokenTypeName() const;
@@ -62,9 +65,10 @@ public:
 
     // If this lexeme is one of the reserved words, then assign it that token
     void CheckReserved();
+
+    friend std::ostream &operator<<(std::ostream &out, const Token &tc);
 };
 
 // Outputs token type, name, and lexeme
-std::ostream &operator<<(std::ostream &out, const Token &tc);
 
 #endif // TOKEN_H

@@ -22,7 +22,6 @@ private:
     IfStatementNode *IfStatement();
     WhileStatementNode *WhileStatement();
     ForStatementNode *ForStatement();
-    ForeStatementNode *ForeStatement();
     CoutStatementNode *CoutStatement();
     ExpressionNode *Expression();
     ExpressionNode *Relational();

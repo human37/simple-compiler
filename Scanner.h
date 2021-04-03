@@ -21,7 +21,6 @@ public:
 private:
     std::ifstream mFin;
     int mLineNumber;
-    int mColumnNumber;
     std::string mFileName;
 };
 

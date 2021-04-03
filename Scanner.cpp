@@ -25,45 +25,42 @@ int ScannerClass::getLineNumber()
 
 Token ScannerClass::getNextToken()
 {
-    StateMachine stateMachine;
-    MachineState currentState = START_STATE;
+    StateMachine sm = StateMachine();
+    MachineState state;
+    char next;
     TokenType type;
     std::string lexeme = "";
-    do
-    {
-        char c = mFin.get();
-        lexeme += c;
-        currentState = stateMachine.UpdateState(c, type);
-        if (currentState == START_STATE)
+    do {
+        next = this->mFin.get();
+        state = sm.UpdateState(next, type);
+        lexeme += next;
+        if (state == START_STATE) {
             lexeme = "";
-        if (c == '\n' && currentState == CANTMOVE_STATE)
-            mLineNumber++;
-    } while (!mFin.eof() && currentState != CANTMOVE_STATE);
-    if (mFin.eof())
-        type = ENDFILE_TOKEN;
-    mFin.unget();
+        }
+        if (next == '\n' && state != CANTMOVE_STATE) {
+            this->mLineNumber++;
+        }
+    } while (state != CANTMOVE_STATE);
+
+    this->mFin.unget();
     lexeme.pop_back();
-    if (type == BAD_TOKEN)
-    {
-        std::cout << "bad token found bro: \n"
-                  << type << "\n";
+    if (type == BAD_TOKEN) {
+        std::cout << "bad token parsed: " << std::endl;
         exit(EXIT_FAILURE);
     }
-    MSG("type is: " + type);
-    Token token = Token(type, lexeme);
-    return token;
+    Token tok = Token(type, lexeme, this->mFileName, mLineNumber);
+    tok.CheckReserved();
+    return tok;
 }
 
 Token ScannerClass::peekNextToken() {
     std::streampos pos = mFin.tellg();
     int line = mLineNumber;
-    int column = mColumnNumber;
     Token token = getNextToken();
     if (!mFin) {
         mFin.clear();
     }
     mFin.seekg(pos);
     mLineNumber = line;
-    mColumnNumber = column;
     return token;
 }
