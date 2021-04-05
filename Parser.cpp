@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "Parser.h"
 
 Parser::Parser(ScannerClass *scanner, SymbolTableClass *table)
@@ -19,7 +20,10 @@ Token Parser::Match(TokenType expected)
         std::cerr << "Expected token type " << Token::GetTokenTypeName(expected) << ", but got type " << t.GetTokenTypeName() << ": " << t << std::endl;
         exit(1);
     }
-    MSG("matched lexeme: " << t.GetLexeme() << "    token: " << t.GetTokenTypeName());
+    MSG(std::setw(5) << "lexeme: "
+                     << "\e[34m" << std::setw(5) << t.GetLexeme() << "\e[0m" << std::setw(7)
+                     << "   token: "
+                     << "\e[32m" << t.GetTokenTypeName() << "\e[0m");
     return t;
 }
 
@@ -231,7 +235,6 @@ ExpressionNode *Parser::Relational()
         this->Match(t);
         en = new BitwiseOrNode(en, this->PlusMinus());
         break;
-    
     }
     return en;
 }
