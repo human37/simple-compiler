@@ -21,9 +21,9 @@ Token Parser::Match(TokenType expected)
         exit(1);
     }
     MSG(std::setw(5) << "lexeme: "
-                     << "\e[34m" << std::setw(5) << t.GetLexeme() << "\e[0m" << std::setw(7)
+                     << "\e[36m" << std::setw(5) << t.GetLexeme() << "\e[0m" << std::setw(9)
                      << "   token: "
-                     << "\e[32m" << t.GetTokenTypeName() << "\e[0m");
+                     << "\e[33m" << t.GetTokenTypeName() << "\e[0m");
     return t;
 }
 

@@ -82,8 +82,8 @@ std::ostream &operator<<(std::ostream &out, const Token &tc)
 {
     out.setf(std::ios::left);
     out << "type: "
-        << "\e[34m" << std::setw(15) << tc.GetTokenTypeName() << "\e[0m"
+        << "\e[31m" << std::setw(15) << tc.GetTokenTypeName() << "\e[0m"
         << "lexeme: "
-        << "\e[32m" << std::setw(5) << tc.GetLexeme() << "\e[0m";
+        << "\e[31m" << std::setw(5) << tc.GetLexeme() << "\e[0m";
     return out;
 }

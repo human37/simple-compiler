@@ -10,6 +10,7 @@ void main()
         if (2 == 2) {
             sum = sum + 436;
             cout << sum;
+            a
         }
     }
 }
