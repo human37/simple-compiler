@@ -1,16 +1,26 @@
 void main()
 {
-    int sum;
-    sum = 35 + 400;
-    cout << 0 && 0;
-    if (10 || 0) {
-        cout << sum;
+    // testing the bitwise AND operator, and the priority:
+    if ((1 & 1) && (1 & 0))
+    {
+        // it will not print this
+        cout << 999; // (secondsum's value is 8)
     }
-    while (sum < 436) {
-        if (2 == 2) {
-            sum = sum + 436;
-            cout << sum;
-            a
-        }
+
+    if ((1 & 1) && (1 & 1) || (1 & 1))
+    {
+        // it will print this
+        cout << 0; // (firsum's value is 4)
+    }
+
+    int mathtest = 1 * 2 / 3 - 4 + 6;
+    cout << mathtest; // 2
+
+    // while loop
+    int i = 10;
+    while (i >= 0)
+    {
+        cout << i;
+        i = i - 1;
     }
 }

@@ -186,12 +186,24 @@ ExpressionNode *Parser::Or()
 
 ExpressionNode *Parser::And()
 {
-    ExpressionNode *current = Relational();
+    ExpressionNode *current = BitwiseAnd();
     TokenType tt = this->scanner->peekNextToken().GetTokenType();
     if (tt == AND_TOKEN)
     {
         Match(tt);
         current = new AndNode(current, Factor());
+    }
+    return current;
+}
+
+ExpressionNode *Parser::BitwiseAnd()
+{
+    ExpressionNode *current = Relational();
+    TokenType tt = this->scanner->peekNextToken().GetTokenType();
+    if (tt == BITWISE_AND_TOKEN)
+    {
+        Match(tt);
+        current = new BitwiseAndNode(current, Factor());
     }
     return current;
 }
@@ -226,14 +238,6 @@ ExpressionNode *Parser::Relational()
     case NOT_EQUAL_TOKEN:
         this->Match(t);
         en = new NotEqualNode(en, this->PlusMinus());
-        break;
-    case BITWISE_AND_TOKEN:
-        this->Match(t);
-        en = new BitwiseAndNode(en, this->PlusMinus());
-        break;
-    case BITWISE_OR_TOKEN:
-        this->Match(t);
-        en = new BitwiseOrNode(en, this->PlusMinus());
         break;
     }
     return en;

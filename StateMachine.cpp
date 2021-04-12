@@ -90,6 +90,7 @@ StateMachine::StateMachine()
     this->correspondingTokenTypes[MULTIPLY_STATE] = MULTIPLY_TOKEN;
     this->correspondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
     this->correspondingTokenTypes[ENDFILE_STATE] = ENDFILE_TOKEN;
+    this->correspondingTokenTypes[BITWISE_AND_STATE] = BITWISE_AND_TOKEN;
     this->correspondingTokenTypes[AND_STATE] = AND_TOKEN;
     this->correspondingTokenTypes[OR_STATE] = OR_TOKEN;
 }

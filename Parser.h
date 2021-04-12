@@ -32,6 +32,7 @@ private:
     IntegerNode *Integer();
     ExpressionNode *And();
     ExpressionNode *Or();
+    ExpressionNode *BitwiseAnd();
 
 public:
     Parser(ScannerClass *scanner, SymbolTableClass *table);
