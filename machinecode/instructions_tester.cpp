@@ -4,7 +4,7 @@
 int main()
 {
     InstructionsClass ic;
-    ic.PushValue(1000);
+    ic.PushVariable(10);
     ic.PopAndWrite();
     ic.Finish();
     ic.PrintAllMachineCodes();

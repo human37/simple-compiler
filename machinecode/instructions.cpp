@@ -106,6 +106,7 @@ InstructionsClass::InstructionsClass()
 		cout << "Compiling for 64 bit" << endl;
 	}
 
+	mData[10] = 2000;
 	mCurrent = 0;
 	Encode(PUSH_EBP);
 	Encode(MOV_EBP_ESP1);
