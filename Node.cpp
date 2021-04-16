@@ -14,6 +14,11 @@ void StartNode::Interpret()
     this->programNode->Interpret();
 }
 
+void StartNode::Code(InstructionsClass &machineCode)
+{
+    program->Code(machineCode);
+}
+
 ProgramNode::ProgramNode(BlockNode *bn)
     : blockNode(bn) {}
 ProgramNode::~ProgramNode()
@@ -23,6 +28,10 @@ ProgramNode::~ProgramNode()
 void ProgramNode::Interpret()
 {
     this->blockNode->Interpret();
+}
+void ProgramNode::Code(InstructionsClass &machineCode)
+{
+    program->Code(machineCode);
 }
 
 BlockNode::BlockNode(StatementGroupNode *sgn)
@@ -34,6 +43,10 @@ BlockNode::~BlockNode()
 void BlockNode::Interpret()
 {
     this->sgNode->Interpret();
+}
+void BlockNode::Code(InstructionsClass &machineCode)
+{
+    program->Code(machineCode);
 }
 
 StatementGroupNode::StatementGroupNode()
@@ -52,6 +65,15 @@ void StatementGroupNode::Interpret()
         n->Interpret();
     }
 }
+void StatementGroupNode::Code(InstructionsClass &machineCode)
+{
+    for (auto n : this->nodes)
+    {
+        n->Code(machineCode);
+    }
+}
+
+
 void StatementGroupNode::AddStatement(StatementNode *node)
 {
     this->nodes.push_back(node);
@@ -64,6 +86,10 @@ DeclarationStatementNode::~DeclarationStatementNode()
     delete this->IDNode;
 }
 void DeclarationStatementNode::Interpret()
+{
+    this->IDNode->DeclareVariable();
+}
+void DeclarationStatementNode::Code(InstructionsClass &machineCode)
 {
     this->IDNode->DeclareVariable();
 }
@@ -93,6 +119,12 @@ void AssignmentStatementNode::Interpret()
     int val = this->expNode->Evaluate();
     this->IDNode->SetValue(val);
 }
+void AssignmentStatementNode::Code(InstructionsClass &machineCode)
+{
+    this->expNode->CodeEvaluate(machineCode);
+    int index = this->IDNode->GetIndex();
+    machineCode.PopAndStore(index);
+}
 
 IfStatementNode::IfStatementNode(ExpressionNode *en, BlockNode *bn)
     : expNode(en), blockNode(bn) {}
@@ -107,6 +139,15 @@ void IfStatementNode::Interpret()
     {
         this->blockNode->Interpret();
     }
+}
+void IfStatementNode::Code(InstructionsClass &machineCode)
+{
+    mExpression->CodeEvaluate(machineCode);
+    unsigned char * InsertAddress = machineCode.SkipIfZeroStack();
+    unsigned char * address1 = machineCode.GetAddress();
+    mStatement->Code(machineCode);
+    unsigned char * address2 = machineCode.GetAddress();
+    machineCode.SetOffset(InsertAddress, (int)(address2 - address1));
 }
 
 WhileStatementNode::WhileStatementNode(ExpressionNode *en, BlockNode *bn)
@@ -161,6 +202,11 @@ void CoutStatementNode::Interpret()
 {
     int val = this->expNode->Evaluate();
     std::cout << val << std::endl;
+}
+void CoutStatementNode::Code(machineCode)
+{
+    this->expNode->Evaluate();
+    machineCode.PopAndWrite();
 }
 
 ExpressionNode::~ExpressionNode() {}

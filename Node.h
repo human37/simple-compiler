@@ -41,6 +41,7 @@ class Node
 public:
     virtual ~Node();
     virtual void Interpret() = 0;
+    virtual void Code(InstructionsClass &machineCode) = 0;
 };
 
 class StartNode : public Node
@@ -213,6 +214,7 @@ class ExpressionNode
 public:
     virtual ~ExpressionNode();
     virtual int Evaluate() = 0;
+    virtual void CodeEvaluate(InstructionsClass &machineCode) = 0;
 };
 
 class IntegerNode : public ExpressionNode
