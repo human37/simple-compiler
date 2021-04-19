@@ -16,7 +16,7 @@ void StartNode::Interpret()
 
 void StartNode::Code(InstructionsClass &machineCode)
 {
-    program->Code(machineCode);
+    this->programNode->Code(machineCode);
 }
 
 ProgramNode::ProgramNode(BlockNode *bn)
@@ -31,7 +31,7 @@ void ProgramNode::Interpret()
 }
 void ProgramNode::Code(InstructionsClass &machineCode)
 {
-    program->Code(machineCode);
+    this->blockNode->Code(machineCode);
 }
 
 BlockNode::BlockNode(StatementGroupNode *sgn)

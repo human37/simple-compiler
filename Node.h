@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Symbol.h"
+#include "Instructions.h"
 
 class Node;
 class StartNode;
@@ -51,6 +52,7 @@ private:
 
 public:
     StartNode(ProgramNode *pn);
+    void Code(InstructionsClass &machineCode);
     ~StartNode();
     void Interpret();
 };
@@ -62,6 +64,7 @@ private:
 
 public:
     ProgramNode(BlockNode *bn);
+    void Code(InstructionsClass &machineCode);
     ~ProgramNode();
     void Interpret();
 };
@@ -79,6 +82,7 @@ private:
 
 public:
     BlockNode(StatementGroupNode *sgn);
+    void Code(InstructionsClass &machineCode);
     ~BlockNode();
 
     void Interpret();
@@ -95,6 +99,7 @@ public:
 
     void Interpret();
     void AddStatement(StatementNode *node);
+    void Code(InstructionsClass &machineCode);
 };
 
 class DeclarationStatementNode : public StatementNode
@@ -105,7 +110,7 @@ protected:
 public:
     DeclarationStatementNode(IdentifierNode *in);
     ~DeclarationStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -117,7 +122,7 @@ private:
 public:
     DeclarationAssignmentStatementNode(IdentifierNode *in, ExpressionNode *en);
     ~DeclarationAssignmentStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -130,7 +135,7 @@ private:
 public:
     AssignmentStatementNode(IdentifierNode *in, ExpressionNode *en);
     ~AssignmentStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -143,7 +148,7 @@ private:
 public:
     IfStatementNode(ExpressionNode *en, BlockNode *bn);
     ~IfStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -156,7 +161,7 @@ private:
 public:
     WhileStatementNode(ExpressionNode *en, BlockNode *bn);
     ~WhileStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 class ForStatementNode : public StatementNode
@@ -174,7 +179,7 @@ public:
         StatementNode *incrementer,
         BlockNode *bn);
     ~ForStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -193,7 +198,7 @@ public:
         StatementNode *incrementer,
         BlockNode *bn);
     ~ForeStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -205,7 +210,7 @@ private:
 public:
     CoutStatementNode(ExpressionNode *en);
     ~CoutStatementNode();
-
+    void Code(InstructionsClass &machineCode);
     void Interpret();
 };
 
@@ -225,6 +230,7 @@ private:
 public:
     IntegerNode(int i);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class IdentifierNode : public ExpressionNode
@@ -236,6 +242,7 @@ private:
 public:
     IdentifierNode(std::string label, SymbolTableClass *symTable);
     ~IdentifierNode();
+    void CodeEvaluate(InstructionsClass &machineCode);
 
     void DeclareVariable();
     void SetValue(int v);
@@ -251,6 +258,7 @@ protected:
 public:
     BinaryOperatorNode(ExpressionNode *left, ExpressionNode *right);
     ~BinaryOperatorNode();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 // Mathematical operators
@@ -261,6 +269,7 @@ private:
 public:
     PlusNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class MinusNode : public BinaryOperatorNode
@@ -269,6 +278,7 @@ private:
 public:
     MinusNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class TimesNode : public BinaryOperatorNode
@@ -277,6 +287,7 @@ private:
 public:
     TimesNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class DivideNode : public BinaryOperatorNode
@@ -285,6 +296,7 @@ private:
 public:
     DivideNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 // Relational operators
@@ -295,6 +307,7 @@ private:
 public:
     LessNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class LessEqualNode : public BinaryOperatorNode
@@ -303,6 +316,7 @@ private:
 public:
     LessEqualNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class GreaterNode : public BinaryOperatorNode
@@ -311,6 +325,7 @@ private:
 public:
     GreaterNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class GreaterEqualNode : public BinaryOperatorNode
@@ -319,6 +334,7 @@ private:
 public:
     GreaterEqualNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class EqualNode : public BinaryOperatorNode
@@ -327,6 +343,7 @@ private:
 public:
     EqualNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class NotEqualNode : public BinaryOperatorNode
@@ -335,6 +352,7 @@ private:
 public:
     NotEqualNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class BitwiseAndNode : public BinaryOperatorNode
@@ -343,6 +361,7 @@ private:
 public:
     BitwiseAndNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class BitwiseOrNode : public BinaryOperatorNode
@@ -351,6 +370,7 @@ private:
 public:
     BitwiseOrNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class AndNode : public BinaryOperatorNode
@@ -359,6 +379,7 @@ private:
 public:
     AndNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class OrNode : public BinaryOperatorNode
@@ -367,6 +388,7 @@ private:
 public:
     OrNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 #endif // NODE_H
