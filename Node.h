@@ -243,12 +243,12 @@ public:
     IdentifierNode(std::string label, SymbolTableClass *symTable);
     ~IdentifierNode();
     void CodeEvaluate(InstructionsClass &machineCode);
-
     void DeclareVariable();
     void SetValue(int v);
     int GetIndex();
     int Evaluate();
 };
+
 class BinaryOperatorNode : public ExpressionNode
 {
 protected:
@@ -258,7 +258,6 @@ protected:
 public:
     BinaryOperatorNode(ExpressionNode *left, ExpressionNode *right);
     ~BinaryOperatorNode();
-    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 // Mathematical operators

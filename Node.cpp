@@ -46,7 +46,7 @@ void BlockNode::Interpret()
 }
 void BlockNode::Code(InstructionsClass &machineCode)
 {
-    program->Code(machineCode);
+    this->sgNode->Code(machineCode);
 }
 
 StatementGroupNode::StatementGroupNode()
@@ -72,7 +72,6 @@ void StatementGroupNode::Code(InstructionsClass &machineCode)
         n->Code(machineCode);
     }
 }
-
 
 void StatementGroupNode::AddStatement(StatementNode *node)
 {
@@ -105,6 +104,13 @@ void DeclarationAssignmentStatementNode::Interpret()
     this->IDNode->DeclareVariable();
     int val = this->expNode->Evaluate();
     this->IDNode->SetValue(val);
+}
+void DeclarationAssignmentStatementNode::Code(InstructionsClass &machineCode)
+{
+    this->IDNode->DeclareVariable();
+    this->expNode->CodeEvaluate(machineCode);
+    int index = this->IDNode->GetIndex();
+    machineCode.PopAndStore(index);
 }
 
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *in, ExpressionNode *en)
@@ -142,11 +148,11 @@ void IfStatementNode::Interpret()
 }
 void IfStatementNode::Code(InstructionsClass &machineCode)
 {
-    mExpression->CodeEvaluate(machineCode);
-    unsigned char * InsertAddress = machineCode.SkipIfZeroStack();
-    unsigned char * address1 = machineCode.GetAddress();
-    mStatement->Code(machineCode);
-    unsigned char * address2 = machineCode.GetAddress();
+    this->expNode->CodeEvaluate(machineCode);
+    unsigned char *InsertAddress = machineCode.SkipIfZeroStack();
+    unsigned char *address1 = machineCode.GetAddress();
+    this->blockNode->Code(machineCode);
+    unsigned char *address2 = machineCode.GetAddress();
     machineCode.SetOffset(InsertAddress, (int)(address2 - address1));
 }
 
@@ -163,6 +169,18 @@ void WhileStatementNode::Interpret()
     {
         this->blockNode->Interpret();
     }
+}
+void WhileStatementNode::Code(InstructionsClass &machineCode)
+{
+    unsigned char *address1 = machineCode.GetAddress();
+    this->expNode->CodeEvaluate(machineCode);
+    unsigned char *insertAddressSkip = machineCode.SkipIfZeroStack();
+    unsigned char *address2 = machineCode.GetAddress();
+    this->blockNode->Code(machineCode);
+    unsigned char *insertAddressJump = machineCode.Jump();
+    unsigned char *address3 = machineCode.GetAddress();
+    machineCode.SetOffset(insertAddressSkip, (int)(address3 - address2));
+    machineCode.SetOffset(insertAddressJump, (int)(address1 - address3));
 }
 
 ForStatementNode::ForStatementNode(
@@ -190,7 +208,10 @@ void ForStatementNode::Interpret()
         this->incrementer->Interpret();
     }
 }
+void ForStatementNode::Code(InstructionsClass &machineCode)
+{
 
+}
 
 CoutStatementNode::CoutStatementNode(ExpressionNode *en)
     : expNode(en) {}
@@ -203,10 +224,17 @@ void CoutStatementNode::Interpret()
     int val = this->expNode->Evaluate();
     std::cout << val << std::endl;
 }
-void CoutStatementNode::Code(machineCode)
+void CoutStatementNode::Code(InstructionsClass &machineCode)
 {
-    this->expNode->Evaluate();
-    machineCode.PopAndWrite();
+    if (this->expNode == NULL)
+    {
+        machineCode.WriteEndl();
+    }
+    else
+    {
+        this->expNode->CodeEvaluate(machineCode);
+        machineCode.PopAndWrite();
+    }
 }
 
 ExpressionNode::~ExpressionNode() {}
@@ -217,6 +245,10 @@ IntegerNode::IntegerNode(int i)
 int IntegerNode::Evaluate()
 {
     return this->value;
+}
+void IntegerNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    machineCode.PushValue(this->value);
 }
 
 IdentifierNode::IdentifierNode(std::string label, SymbolTableClass *symTable)
@@ -244,6 +276,11 @@ int IdentifierNode::Evaluate()
     return this->table->GetValue(this->label);
 }
 
+void IdentifierNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    machineCode.PushVariable(this->GetIndex());
+}
+
 BinaryOperatorNode::BinaryOperatorNode(ExpressionNode *left, ExpressionNode *right)
     : left(left), right(right) {}
 BinaryOperatorNode::~BinaryOperatorNode()
@@ -256,18 +293,28 @@ BinaryOperatorNode::~BinaryOperatorNode()
 
 PlusNode::PlusNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int PlusNode::Evaluate()
 {
     return this->left->Evaluate() + this->right->Evaluate();
 }
+void PlusNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopAddPush();
+}
 
 MinusNode::MinusNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int MinusNode::Evaluate()
 {
     return this->left->Evaluate() - this->right->Evaluate();
+}
+void MinusNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopSubPush();
 }
 
 TimesNode::TimesNode(ExpressionNode *left, ExpressionNode *right)
@@ -277,6 +324,12 @@ int TimesNode::Evaluate()
 {
     return this->left->Evaluate() * this->right->Evaluate();
 }
+void TimesNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopMulPush();
+}
 
 DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -284,6 +337,12 @@ DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right)
 int DivideNode::Evaluate()
 {
     return this->left->Evaluate() / this->right->Evaluate();
+}
+void DivideNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopDivPush();
 }
 
 // Relational operators
@@ -295,13 +354,24 @@ int LessNode::Evaluate()
 {
     return this->left->Evaluate() < this->right->Evaluate();
 }
+void LessNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopLessPush();
+}
 
 LessEqualNode::LessEqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int LessEqualNode::Evaluate()
 {
     return this->left->Evaluate() <= this->right->Evaluate();
+}
+void LessEqualNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopLessEqualPush();
 }
 
 GreaterNode::GreaterNode(ExpressionNode *left, ExpressionNode *right)
@@ -311,6 +381,12 @@ int GreaterNode::Evaluate()
 {
     return this->left->Evaluate() > this->right->Evaluate();
 }
+void GreaterNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopGreaterPush();
+}
 
 GreaterEqualNode::GreaterEqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -318,6 +394,12 @@ GreaterEqualNode::GreaterEqualNode(ExpressionNode *left, ExpressionNode *right)
 int GreaterEqualNode::Evaluate()
 {
     return this->left->Evaluate() >= this->right->Evaluate();
+}
+void GreaterEqualNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopGreaterEqualPush();
 }
 
 EqualNode::EqualNode(ExpressionNode *left, ExpressionNode *right)
@@ -327,6 +409,12 @@ int EqualNode::Evaluate()
 {
     return this->left->Evaluate() == this->right->Evaluate();
 }
+void EqualNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopEqualPush();
+}
 
 NotEqualNode::NotEqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -334,6 +422,12 @@ NotEqualNode::NotEqualNode(ExpressionNode *left, ExpressionNode *right)
 int NotEqualNode::Evaluate()
 {
     return this->left->Evaluate() != this->right->Evaluate();
+}
+void NotEqualNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopNotEqualPush();
 }
 
 BitwiseAndNode::BitwiseAndNode(ExpressionNode *left, ExpressionNode *right)
@@ -343,6 +437,12 @@ int BitwiseAndNode::Evaluate()
 {
     return this->left->Evaluate() & this->right->Evaluate();
 }
+void BitwiseAndNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopAndPush();
+}
 
 BitwiseOrNode::BitwiseOrNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -350,6 +450,12 @@ BitwiseOrNode::BitwiseOrNode(ExpressionNode *left, ExpressionNode *right)
 int BitwiseOrNode::Evaluate()
 {
     return this->left->Evaluate() | this->right->Evaluate();
+}
+void BitwiseOrNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopAndPush();
 }
 
 AndNode::AndNode(ExpressionNode *left, ExpressionNode *right)
@@ -359,6 +465,12 @@ int AndNode::Evaluate()
 {
     return this->left->Evaluate() && this->right->Evaluate();
 }
+void AndNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopAndPush();
+}
 
 OrNode::OrNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -366,4 +478,10 @@ OrNode::OrNode(ExpressionNode *left, ExpressionNode *right)
 int OrNode::Evaluate()
 {
     return this->left->Evaluate() || this->right->Evaluate();
+}
+void OrNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.PopPopOrPush();
 }
