@@ -47,7 +47,27 @@ void testInterpreter()
     parser.Start()->Interpret();
 }
 
+void CodeAndExecute(std::string inputFile)
+{
+    // Create scanner, symbol table, and parser objects.
+    ScannerClass scanner(inputFile);
+    SymbolTableClass symbolTable;
+    Parser parser(&scanner, &symbolTable);
+    // Do the parsing, which results in a parse tree.
+    StartNode * root = parser.Start();
+    // Create the machine code instructions from the parse tree
+    InstructionsClass machineCode;
+    root->Code(machineCode);
+    machineCode.Finish();
+    machineCode.PrintAllMachineCodes();
+    // Execute the machine code instructions previously created
+    machineCode.Execute();
+    // cleanup recursively
+    delete root;
+}
+
 int main()
 {
-    testInterpreter();
+    // testInterpreter();
+    CodeAndExecute("input.c");
 }
