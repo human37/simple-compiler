@@ -273,22 +273,22 @@ void InstructionsClass::PopPopLessEqualPush()
 
 void InstructionsClass::PopPopGreaterPush()
 {
-	PopPopGreaterPush();
+	PopPopComparePush(JG);
 }
 
 void InstructionsClass::PopPopGreaterEqualPush()
 {
-	PopPopGreaterEqualPush();
+	PopPopComparePush(JGE);
 }
 
 void InstructionsClass::PopPopEqualPush()
 {
-	PopPopEqualPush();
+	PopPopComparePush(JE);
 }
 
 void InstructionsClass::PopPopNotEqualPush()
 {
-	PopPopNotEqualPush();
+	PopPopComparePush(JNE);
 }
 
 void InstructionsClass::PopPopAndPush()
