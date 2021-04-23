@@ -1,10 +1,12 @@
 NAME = compiler
 
+CXXFLAGS=-Wall -Werror -fno-stack-protector -D_FORTIFY_SOURCE=0
+
 run: compiler
 	./$(NAME).exe
 
 compiler:
-	g++ *.cpp -ggdb -fno-stack-protector -std=c++17 -o $(NAME).exe -z execstack
+	g++-9 *.cpp -o $(NAME).exe -z execstack
 
 clean:
 	rm *.o *.exe
