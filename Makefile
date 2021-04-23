@@ -4,7 +4,7 @@ run: compiler
 	./$(NAME).exe
 
 compiler:
-	g++ *.cpp -std=c++17 -o $(NAME).exe -z execstack
+	g++ *.cpp -ggdb -fno-stack-protector -std=c++17 -o $(NAME).exe -z execstack
 
 clean:
 	rm *.o *.exe

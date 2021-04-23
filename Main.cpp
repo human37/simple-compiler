@@ -4,6 +4,7 @@
 #include "StateMachine.h"
 #include "Node.h"
 #include "Parser.h"
+#include "Instructions.h"
 
 void testToken()
 {
@@ -47,10 +48,10 @@ void testInterpreter()
     parser.Start()->Interpret();
 }
 
-void CodeAndExecute(std::string inputFile)
+void CodeAndExecute()
 {
     // Create scanner, symbol table, and parser objects.
-    ScannerClass scanner(inputFile);
+    ScannerClass scanner("input.c");
     SymbolTableClass symbolTable;
     Parser parser(&scanner, &symbolTable);
     // Do the parsing, which results in a parse tree.
@@ -69,5 +70,5 @@ void CodeAndExecute(std::string inputFile)
 int main()
 {
     // testInterpreter();
-    CodeAndExecute("input.c");
+    CodeAndExecute();
 }
