@@ -4,7 +4,7 @@
 #include "Scanner.h"
 #include "Symbol.h"
 #include "Token.h"
-#include "Node.h"
+#include "nodes/node.h"
 
 class Parser
 {

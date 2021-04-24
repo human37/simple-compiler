@@ -2,7 +2,7 @@
 #include "Token.h"
 #include "Scanner.h"
 #include "StateMachine.h"
-#include "Node.h"
+#include "nodes/node.h"
 #include "Parser.h"
 #include "Instructions.h"
 

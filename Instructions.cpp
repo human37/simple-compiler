@@ -49,6 +49,7 @@ unsigned char InstructionsClass::mCode[MAX_INSTRUCTIONS] = {0};
 
 // A location to store an integer that is about to be printed.
 int InstructionsClass::gPrintInteger = 0;
+int InstructionsClass::gReadInteger = 0;
 
 void HelperPrintInteger(void);
 
@@ -317,6 +318,27 @@ void InstructionsClass::PopPopAndPush()
 	Encode(0);
 	// Save A to the stack
 	Encode(PUSH_EAX); // push 1 or 0
+}
+
+void HelperReadInteger(void) {
+    cout << ">> ";
+    cin >> InstructionsClass::gReadInteger;
+}
+
+void InstructionsClass::ReadAndStoreVariable(unsigned int index) {
+    int* variable_address = GetMem(index);
+
+    // Read in integer
+    Call((void*)HelperReadInteger);
+    // Push on stack
+    Encode(MEM_TO_EAX);
+    Encode(&gReadInteger);
+    Encode(PUSH_EAX);
+
+    // Store
+    Encode(POP_EAX);
+    Encode(EAX_TO_MEM);
+    Encode(variable_address);
 }
 
 void InstructionsClass::PopPopOrPush()

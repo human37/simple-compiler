@@ -6,7 +6,7 @@ run: compiler
 	./$(NAME).exe
 
 compiler:
-	g++-9 *.cpp -o $(NAME).exe -z execstack
+  g++-9 *.cpp -o $(NAME).exe -z execstack
 
 clean:
 	rm *.o *.exe
