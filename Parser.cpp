@@ -6,10 +6,7 @@ Parser::Parser(ScannerClass *scanner, SymbolTableClass *table)
     : scanner(scanner), table(table) {}
 
 Parser::~Parser()
-{
-    delete this->scanner;
-    delete this->table;
-}
+{}
 
 Token Parser::Match(TokenType expected)
 {

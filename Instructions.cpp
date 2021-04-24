@@ -124,7 +124,8 @@ void InstructionsClass::Finish()
 void InstructionsClass::Execute()
 {
 	cout << "About to Execute the machine code..." << endl;
-	void *ptr = mCode;
+	void *ptr = InstructionsClass::mCode;
+	cout << ptr << endl;
 	void (*f)(void);
 	f = (void (*)(void))ptr;
 	f();
@@ -160,7 +161,8 @@ void InstructionsClass::Call(void *function_address)
 // This is called by the generated machine language code.
 void HelperPrintInteger(void)
 {
-	printf("%i ", InstructionsClass::gPrintInteger);
+	// printf("%i ", InstructionsClass::gPrintInteger);
+	cout << InstructionsClass::gPrintInteger;
 }
 
 void InstructionsClass::PopAndWrite()
