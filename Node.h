@@ -205,10 +205,10 @@ public:
 class CoutStatementNode : public StatementNode
 {
 private:
-    ExpressionNode *expNode;
+    std::vector<ExpressionNode *> expNodes;
 
 public:
-    CoutStatementNode(ExpressionNode *en);
+    CoutStatementNode(std::vector<ExpressionNode *> expNodes);
     ~CoutStatementNode();
     void Code(InstructionsClass &machineCode);
     void Interpret();

@@ -157,11 +157,24 @@ ForStatementNode *Parser::ForStatement()
 
 CoutStatementNode *Parser::CoutStatement()
 {
+    std::vector<ExpressionNode * > ens;
     this->Match(COUT_TOKEN);
-    this->Match(INSERTION_TOKEN);
-    ExpressionNode *en = this->Expression();
+    do 
+    {
+        this->Match(INSERTION_TOKEN);
+        if (this->scanner->peekNextToken().GetTokenType() == ENDL_TOKEN)
+        {
+            this->Match(ENDL_TOKEN);
+            ens.push_back(NULL);
+        }
+        else
+        {
+            ens.push_back(this->Expression());
+        }
+    } 
+    while (this->scanner->peekNextToken().GetTokenType() != SEMICOLON_TOKEN);
     this->Match(SEMICOLON_TOKEN);
-    return new CoutStatementNode(en);
+    return new CoutStatementNode(ens);
 }
 
 ExpressionNode *Parser::Expression()

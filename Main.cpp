@@ -64,7 +64,7 @@ void CodeAndExecute()
     // Execute the machine code instructions previously created
     machineCode.Execute();
     // cleanup recursively
-    // delete root;
+    delete root;
 }
 
 int main()

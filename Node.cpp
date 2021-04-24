@@ -213,27 +213,36 @@ void ForStatementNode::Code(InstructionsClass &machineCode)
 
 }
 
-CoutStatementNode::CoutStatementNode(ExpressionNode *en)
-    : expNode(en) {}
+CoutStatementNode::CoutStatementNode(std::vector<ExpressionNode *> expNodes)
+    : expNodes(expNodes) {}
 CoutStatementNode::~CoutStatementNode()
 {
-    delete this->expNode;
+    for (auto exp : this->expNodes)
+    {
+        delete exp;
+    }
 }
 void CoutStatementNode::Interpret()
 {
-    int val = this->expNode->Evaluate();
-    std::cout << val << std::endl;
+    for (auto exp: this->expNodes)
+    {
+        int val = exp->Evaluate();
+        std::cout << val;
+    }
 }
 void CoutStatementNode::Code(InstructionsClass &machineCode)
 {
-    if (this->expNode == NULL)
+    for (auto exp : this->expNodes)
     {
-        machineCode.WriteEndl();
-    }
-    else
-    {
-        this->expNode->CodeEvaluate(machineCode);
-        machineCode.PopAndWrite();
+        if (exp == NULL)
+        {
+            machineCode.WriteEndl();
+        }
+        else
+        {
+            exp->CodeEvaluate(machineCode);
+            machineCode.PopAndWrite();
+        }
     }
 }
 
