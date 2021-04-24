@@ -112,11 +112,29 @@ DeclarationStatementNode *Parser::DeclarationStatement()
 
 AssignmentStatementNode *Parser::AssignmentStatement()
 {
+
     IdentifierNode *in = this->Identifier();
-    this->Match(ASSIGNMENT_TOKEN);
-    ExpressionNode *en = this->Expression();
-    this->Match(SEMICOLON_TOKEN);
-    return new AssignmentStatementNode(in, en);
+    if (this->scanner->peekNextToken().GetTokenType() == ASSIGNMENT_TOKEN)
+    {
+        this->Match(ASSIGNMENT_TOKEN);
+        ExpressionNode *en = this->Expression();
+        this->Match(SEMICOLON_TOKEN);
+        return new AssignmentStatementNode(in, en);
+    }
+    else if (this->scanner->peekNextToken().GetTokenType() == PLUS_EQUALS_TOKEN)
+    {
+        this->Match(PLUS_EQUALS_TOKEN);
+        ExpressionNode *en = this->Expression();
+        this->Match(SEMICOLON_TOKEN);
+        return new PlusEqualsNode(in, en);
+    }
+    else
+    {
+        this->Match(MINUS_EQUALS_TOKEN);
+        ExpressionNode *en = this->Expression();
+        this->Match(SEMICOLON_TOKEN);
+        return new MinusEqualsNode(in, en);
+    }
 }
 
 IfStatementNode *Parser::IfStatement()

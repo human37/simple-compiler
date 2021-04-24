@@ -2,5 +2,7 @@ void main()
 {
     int sum;
     sum = 35 + 400;
-    cout << endl << sum << 3838 << endl;
+    sum += 10000;
+    sum -= 10000;
+    cout << endl << sum << endl;
 }

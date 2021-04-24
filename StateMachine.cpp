@@ -20,7 +20,9 @@ StateMachine::StateMachine()
     this->legalMoves[START_STATE][EQUALS_CHAR] = ASSIGNMENT_STATE;
     this->legalMoves[ASSIGNMENT_STATE][EQUALS_CHAR] = EQUALITY_STATE;
     this->legalMoves[START_STATE][PLUS_CHAR] = PLUS_STATE;
+    this->legalMoves[PLUS_STATE][EQUALS_CHAR] = PLUS_EQUALS_STATE;
     this->legalMoves[START_STATE][MINUS_CHAR] = MINUS_STATE;
+    this->legalMoves[MINUS_STATE][EQUALS_CHAR] = MINUS_EQUALS_STATE;
     this->legalMoves[START_STATE][FORWARD_SLASH_CHAR] = DIVIDE_STATE;
     this->legalMoves[START_STATE][AND_CHAR] = BITWISE_AND_STATE;
     this->legalMoves[BITWISE_AND_STATE][AND_CHAR] = AND_STATE;
@@ -86,7 +88,9 @@ StateMachine::StateMachine()
     this->correspondingTokenTypes[EXTRACTION_STATE] = EXTRACTION_TOKEN;
     this->correspondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
     this->correspondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
+    this->correspondingTokenTypes[PLUS_EQUALS_STATE] = PLUS_EQUALS_TOKEN;
     this->correspondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
+    this->correspondingTokenTypes[MINUS_EQUALS_STATE] = MINUS_EQUALS_TOKEN;
     this->correspondingTokenTypes[MULTIPLY_STATE] = MULTIPLY_TOKEN;
     this->correspondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
     this->correspondingTokenTypes[ENDFILE_STATE] = ENDFILE_TOKEN;
