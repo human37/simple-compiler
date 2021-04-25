@@ -6,7 +6,8 @@ Parser::Parser(ScannerClass *scanner, SymbolTableClass *table)
     : scanner(scanner), table(table) {}
 
 Parser::~Parser()
-{}
+{
+}
 
 Token Parser::Match(TokenType expected)
 {
@@ -14,7 +15,10 @@ Token Parser::Match(TokenType expected)
     if (t.GetTokenType() != expected)
     {
         std::cerr << "Error in parser match. " << std::endl;
-        std::cerr << "Expected token type " << Token::GetTokenTypeName(expected) << ", but got type " << t.GetTokenTypeName() << ": " << t << std::endl;
+        std::cerr << "Expected token type "
+                  << Token::GetTokenTypeName(expected)
+                  << ", but got type " << t.GetTokenTypeName()
+                  << ": " << t << std::endl;
         exit(1);
     }
     MSG(std::setw(5) << "lexeme: "
@@ -157,9 +161,9 @@ ForStatementNode *Parser::ForStatement()
 
 CoutStatementNode *Parser::CoutStatement()
 {
-    std::vector<ExpressionNode * > ens;
+    std::vector<ExpressionNode *> ens;
     this->Match(COUT_TOKEN);
-    do 
+    do
     {
         this->Match(INSERTION_TOKEN);
         if (this->scanner->peekNextToken().GetTokenType() == ENDL_TOKEN)
@@ -171,8 +175,7 @@ CoutStatementNode *Parser::CoutStatement()
         {
             ens.push_back(this->Expression());
         }
-    } 
-    while (this->scanner->peekNextToken().GetTokenType() != SEMICOLON_TOKEN);
+    } while (this->scanner->peekNextToken().GetTokenType() != SEMICOLON_TOKEN);
     this->Match(SEMICOLON_TOKEN);
     return new CoutStatementNode(ens);
 }
@@ -257,7 +260,7 @@ ExpressionNode *Parser::PlusMinus()
 {
     ExpressionNode *en = this->TimesDivide();
 
-    for (;;)
+    while (true)
     {
         TokenType t = this->scanner->peekNextToken().GetTokenType();
         switch (t)

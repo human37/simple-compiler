@@ -6,7 +6,8 @@
 
 const std::string gTokenTypeNames[] = {
     // Reserved words
-    "VOID", "MAIN", "INT", "COUT", "ENDL", "IF", "WHILE", "FOR", "RESERVED_COUNT",
+    "VOID", "MAIN", "INT", "COUT", "ENDL",
+    "IF", "WHILE", "FOR", "RESERVED_COUNT",
     // Scope tokens
     "SEMICOLON",
     "LEFT_PAREN", "RIGHT_PAREN",
@@ -47,7 +48,7 @@ Token::Token(TokenType type, const std::string &lexeme)
 {
 }
 
-Token::Token(TokenType type, const std::string& lexeme, std::string fileName, int line)
+Token::Token(TokenType type, const std::string &lexeme, std::string fileName, int line)
     : type(type), lexeme(lexeme), filename(fileName), line(line) {}
 
 Token::~Token()
@@ -71,8 +72,10 @@ std::string Token::GetLexeme() const
 
 void Token::CheckReserved()
 {
-    for (int i = 0; i < RESERVED_COUNT; i++) {
-        if (toUpper(this->lexeme) == gTokenTypeNames[i]) {
+    for (int i = 0; i < RESERVED_COUNT; i++)
+    {
+        if (toUpper(this->lexeme) == gTokenTypeNames[i])
+        {
             this->type = TokenType(i);
         }
     }

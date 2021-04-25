@@ -2,7 +2,7 @@
 #include "Token.h"
 #include "Scanner.h"
 #include "StateMachine.h"
-#include "nodes/node.h"
+#include "Node.h"
 #include "Parser.h"
 #include "Instructions.h"
 
@@ -16,7 +16,7 @@ void testToken()
 
 void testScanner()
 {
-    ScannerClass scanner("input.c"); 
+    ScannerClass scanner("input.c");
     Token tc;
     do
     {
@@ -27,48 +27,41 @@ void testScanner()
 
 void testNodes()
 {
-    StartNode * variable = new StartNode(new ProgramNode(new BlockNode(new StatementGroupNode())));
+    StartNode *variable = new StartNode(new ProgramNode(new BlockNode(new StatementGroupNode())));
     delete variable;
 
-    PlusNode * plusvariable = new PlusNode(new IntegerNode(5), new IntegerNode(4));
+    PlusNode *plusvariable = new PlusNode(new IntegerNode(5), new IntegerNode(4));
     std::cout << "5 + 4 = " << plusvariable->Evaluate() << std::endl;
     delete plusvariable;
 
-    MinusNode * minusvariable = new MinusNode(new IntegerNode(5), new IntegerNode(4));
+    MinusNode *minusvariable = new MinusNode(new IntegerNode(5), new IntegerNode(4));
     std::cout << "5 - 4 = " << minusvariable->Evaluate() << std::endl;
     delete minusvariable;
 }
 
-void testInterpreter()
+void interpretCode(std::string inputFilename)
 {
-    ScannerClass *scanner = new ScannerClass("input.c");
+    ScannerClass *scanner = new ScannerClass(inputFilename);
     SymbolTableClass *symbols = new SymbolTableClass();
     Parser parser(scanner, symbols);
-
     parser.Start()->Interpret();
 }
 
-void CodeAndExecute()
+void machineCode(std::string inputFilename)
 {
-    // Create scanner, symbol table, and parser objects.
-    ScannerClass scanner("input.c");
+    ScannerClass scanner(inputFilename);
     SymbolTableClass symbolTable;
     Parser parser(&scanner, &symbolTable);
-    // Do the parsing, which results in a parse tree.
-    StartNode * root = parser.Start();
-    // Create the machine code instructions from the parse tree
+    StartNode *root = parser.Start();
     InstructionsClass machineCode;
     root->Code(machineCode);
     machineCode.Finish();
     machineCode.PrintAllMachineCodes();
-    // Execute the machine code instructions previously created
     machineCode.Execute();
-    // cleanup recursively
     delete root;
 }
 
 int main()
 {
-    // testInterpreter();
-    CodeAndExecute();
+    machineCode("input.c");
 }

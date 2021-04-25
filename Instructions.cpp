@@ -106,8 +106,6 @@ InstructionsClass::InstructionsClass()
 	{
 		cout << "Compiling for 64 bit" << endl;
 	}
-
-	mData[10] = 2000;
 	mCurrent = 0;
 	Encode(PUSH_EBP);
 	Encode(MOV_EBP_ESP1);
@@ -194,7 +192,7 @@ void InstructionsClass::PushVariable(unsigned int index)
 
 void InstructionsClass::PopAndStore(unsigned int index)
 {
-	int* variable_address = GetMem(index);
+	int *variable_address = GetMem(index);
 	Encode(POP_EAX);
 	Encode(EAX_TO_MEM);
 	Encode(variable_address);
@@ -319,25 +317,27 @@ void InstructionsClass::PopPopAndPush()
 	Encode(PUSH_EAX); // push 1 or 0
 }
 
-void HelperReadInteger(void) {
-    cout << ">> ";
-    cin >> InstructionsClass::gReadInteger;
+void HelperReadInteger(void)
+{
+	cout << ">> ";
+	cin >> InstructionsClass::gReadInteger;
 }
 
-void InstructionsClass::ReadAndStoreVariable(unsigned int index) {
-    int* variable_address = GetMem(index);
+void InstructionsClass::ReadAndStoreVariable(unsigned int index)
+{
+	int *variable_address = GetMem(index);
 
-    // Read in integer
-    Call((void*)HelperReadInteger);
-    // Push on stack
-    Encode(MEM_TO_EAX);
-    Encode(&gReadInteger);
-    Encode(PUSH_EAX);
+	// Read in integer
+	Call((void *)HelperReadInteger);
+	// Push on stack
+	Encode(MEM_TO_EAX);
+	Encode(&gReadInteger);
+	Encode(PUSH_EAX);
 
-    // Store
-    Encode(POP_EAX);
-    Encode(EAX_TO_MEM);
-    Encode(variable_address);
+	// Store
+	Encode(POP_EAX);
+	Encode(EAX_TO_MEM);
+	Encode(variable_address);
 }
 
 void InstructionsClass::PopPopOrPush()

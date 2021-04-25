@@ -13,7 +13,6 @@ void StartNode::Interpret()
 {
     this->programNode->Interpret();
 }
-
 void StartNode::Code(InstructionsClass &machineCode)
 {
     this->programNode->Code(machineCode);
@@ -72,7 +71,6 @@ void StatementGroupNode::Code(InstructionsClass &machineCode)
         n->Code(machineCode);
     }
 }
-
 void StatementGroupNode::AddStatement(StatementNode *node)
 {
     this->nodes.push_back(node);
@@ -210,7 +208,7 @@ void ForStatementNode::Interpret()
 }
 void ForStatementNode::Code(InstructionsClass &machineCode)
 {
-
+    // currently only works with interpreter
 }
 
 CoutStatementNode::CoutStatementNode(std::vector<ExpressionNode *> expNodes)
@@ -224,7 +222,7 @@ CoutStatementNode::~CoutStatementNode()
 }
 void CoutStatementNode::Interpret()
 {
-    for (auto exp: this->expNodes)
+    for (auto exp : this->expNodes)
     {
         int val = exp->Evaluate();
         std::cout << val;
@@ -250,7 +248,6 @@ ExpressionNode::~ExpressionNode() {}
 
 IntegerNode::IntegerNode(int i)
     : value(i) {}
-
 int IntegerNode::Evaluate()
 {
     return this->value;
@@ -262,29 +259,23 @@ void IntegerNode::CodeEvaluate(InstructionsClass &machineCode)
 
 IdentifierNode::IdentifierNode(std::string label, SymbolTableClass *symTable)
     : label(label), table(symTable) {}
-
 IdentifierNode::~IdentifierNode() {}
-
 void IdentifierNode::DeclareVariable()
 {
     this->table->AddEntry(this->label);
 }
-
 void IdentifierNode::SetValue(int v)
 {
     this->table->SetValue(this->label, v);
 }
-
 int IdentifierNode::GetIndex()
 {
     return this->table->GetIndex(this->label);
 }
-
 int IdentifierNode::Evaluate()
 {
     return this->table->GetValue(this->label);
 }
-
 void IdentifierNode::CodeEvaluate(InstructionsClass &machineCode)
 {
     machineCode.PushVariable(this->GetIndex());
@@ -297,8 +288,6 @@ BinaryOperatorNode::~BinaryOperatorNode()
     delete left;
     delete right;
 }
-
-// Mathematical operators
 
 PlusNode::PlusNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
@@ -328,7 +317,6 @@ void MinusNode::CodeEvaluate(InstructionsClass &machineCode)
 
 TimesNode::TimesNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int TimesNode::Evaluate()
 {
     return this->left->Evaluate() * this->right->Evaluate();
@@ -342,7 +330,6 @@ void TimesNode::CodeEvaluate(InstructionsClass &machineCode)
 
 DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int DivideNode::Evaluate()
 {
     return this->left->Evaluate() / this->right->Evaluate();
@@ -354,11 +341,8 @@ void DivideNode::CodeEvaluate(InstructionsClass &machineCode)
     machineCode.PopPopDivPush();
 }
 
-// Relational operators
-
 LessNode::LessNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int LessNode::Evaluate()
 {
     return this->left->Evaluate() < this->right->Evaluate();
@@ -385,7 +369,6 @@ void LessEqualNode::CodeEvaluate(InstructionsClass &machineCode)
 
 GreaterNode::GreaterNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int GreaterNode::Evaluate()
 {
     return this->left->Evaluate() > this->right->Evaluate();
@@ -399,7 +382,6 @@ void GreaterNode::CodeEvaluate(InstructionsClass &machineCode)
 
 GreaterEqualNode::GreaterEqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int GreaterEqualNode::Evaluate()
 {
     return this->left->Evaluate() >= this->right->Evaluate();
@@ -413,7 +395,6 @@ void GreaterEqualNode::CodeEvaluate(InstructionsClass &machineCode)
 
 EqualNode::EqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int EqualNode::Evaluate()
 {
     return this->left->Evaluate() == this->right->Evaluate();
@@ -427,7 +408,6 @@ void EqualNode::CodeEvaluate(InstructionsClass &machineCode)
 
 NotEqualNode::NotEqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int NotEqualNode::Evaluate()
 {
     return this->left->Evaluate() != this->right->Evaluate();
@@ -441,7 +421,6 @@ void NotEqualNode::CodeEvaluate(InstructionsClass &machineCode)
 
 BitwiseAndNode::BitwiseAndNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int BitwiseAndNode::Evaluate()
 {
     return this->left->Evaluate() & this->right->Evaluate();
@@ -455,7 +434,6 @@ void BitwiseAndNode::CodeEvaluate(InstructionsClass &machineCode)
 
 BitwiseOrNode::BitwiseOrNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int BitwiseOrNode::Evaluate()
 {
     return this->left->Evaluate() | this->right->Evaluate();
@@ -469,7 +447,6 @@ void BitwiseOrNode::CodeEvaluate(InstructionsClass &machineCode)
 
 AndNode::AndNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int AndNode::Evaluate()
 {
     return this->left->Evaluate() && this->right->Evaluate();
@@ -483,7 +460,6 @@ void AndNode::CodeEvaluate(InstructionsClass &machineCode)
 
 OrNode::OrNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
-
 int OrNode::Evaluate()
 {
     return this->left->Evaluate() || this->right->Evaluate();
