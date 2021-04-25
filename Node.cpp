@@ -224,8 +224,15 @@ void CoutStatementNode::Interpret()
 {
     for (auto exp : this->expNodes)
     {
-        int val = exp->Evaluate();
-        std::cout << val;
+        if (exp == NULL)
+        {
+            std::cout << std::endl;
+        }
+        else
+        {
+            int val = exp->Evaluate();
+            std::cout << val;
+        }
     }
 }
 void CoutStatementNode::Code(InstructionsClass &machineCode)

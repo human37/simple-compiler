@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        std::cerr << "unknown parameters were provided."
+        std::cerr << "unknown parameters were provided.";
     }
     return 0;
 }
