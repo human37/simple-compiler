@@ -48,7 +48,7 @@ void main()
 ```
 
 ### Running
-Your input file must be named ```INPUT.C``` and be in the projects root directory. You can then run 
+Your input file must be named ```INPUT.c``` and be in the projects root directory. You can then run 
 
     $ make interpret
   
