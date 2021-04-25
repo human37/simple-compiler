@@ -8,6 +8,7 @@ A simple compiler written in C++. Can be configured to interpret source code to 
   <li> integers </li>
   <li> cout statements </li>
   <li> endl for a newline character </li>
+  <li> line and block comments </li>
   <li> basic comparision operators (>, <, <=, >=) </li>
   <li> logical && and || operators </li>
   <li> bitwise & operator </li>
