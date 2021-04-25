@@ -3,12 +3,9 @@
 StateMachine::StateMachine()
 {
     currentState = START_STATE;
-    // first, initialize all the legalMoves to CANTMOVE_STATE
-    // then, reset the legalMoves that are legitimate
     for (int i = 0; i < LAST_STATE; i++)
         for (int j = 0; j < LAST_CHAR; j++)
             this->legalMoves[i][j] = CANTMOVE_STATE;
-    
     this->legalMoves[START_STATE][DIGIT_CHAR] = INTEGER_STATE;
     this->legalMoves[START_STATE][LETTER_CHAR] = IDENTIFIER_STATE;
     this->legalMoves[START_STATE][WHITESPACE_CHAR] = START_STATE;
@@ -28,13 +25,11 @@ StateMachine::StateMachine()
     this->legalMoves[BITWISE_AND_STATE][AND_CHAR] = AND_STATE;
     this->legalMoves[START_STATE][OR_CHAR] = BITWISE_OR_STATE;
     this->legalMoves[BITWISE_OR_STATE][OR_CHAR] = OR_STATE;
-
     // line comments
     this->legalMoves[DIVIDE_STATE][FORWARD_SLASH_CHAR] = LINE_COMMENT_STATE;
     for (int s = 0; s < LAST_CHAR; s++)
         this->legalMoves[LINE_COMMENT_STATE][s] = LINE_COMMENT_STATE;
     this->legalMoves[LINE_COMMENT_STATE][NEWLINE_CHAR] = START_STATE;
-
     // block comments
     this->legalMoves[DIVIDE_STATE][STAR_CHAR] = BLOCK_COMMENT_STATE;
     for (int s = 0; s < LAST_CHAR; s++)
@@ -48,7 +43,6 @@ StateMachine::StateMachine()
     }
     this->legalMoves[BLOCK_COMMENT_ENDING_STATE][STAR_CHAR] = BLOCK_COMMENT_ENDING_STATE;
     this->legalMoves[BLOCK_COMMENT_ENDING_STATE][FORWARD_SLASH_CHAR] = START_STATE;
-
     this->legalMoves[START_STATE][STAR_CHAR] = MULTIPLY_STATE;
     this->legalMoves[START_STATE][LESS_CHAR] = LESS_STATE;
     this->legalMoves[LESS_STATE][EQUALS_CHAR] = LESS_EQUAL_STATE;
@@ -63,7 +57,6 @@ StateMachine::StateMachine()
     this->legalMoves[IDENTIFIER_STATE][DIGIT_CHAR] = IDENTIFIER_STATE;
     this->legalMoves[IDENTIFIER_STATE][LETTER_CHAR] = IDENTIFIER_STATE;
     this->legalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
-
     // first, initialize all states to correspond to the BAD token type.
     // then, reset the end states to correspond to the correct token types.
     for (int i = 0; i < LAST_STATE; i++)

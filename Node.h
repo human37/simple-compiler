@@ -280,8 +280,6 @@ public:
     ~BinaryOperatorNode();
 };
 
-// Mathematical operators
-
 class PlusNode : public BinaryOperatorNode
 {
 private:
@@ -317,8 +315,6 @@ public:
     int Evaluate();
     void CodeEvaluate(InstructionsClass &machineCode);
 };
-
-// Relational operators
 
 class LessNode : public BinaryOperatorNode
 {

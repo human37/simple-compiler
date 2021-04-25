@@ -4,13 +4,13 @@
 #include <iostream>
 
 #if !defined(ShowMessages)
-#define ShowMessages 0
+#define ShowMessages 1
 #endif // ShowMessages
 
 #if ShowMessages
 #define MSG(X) std::cout << X << std::endl;
 #else
-#define MSG(X);
+#define MSG(X) ;
 #endif // MSG
 
 #endif // DEBUG_H

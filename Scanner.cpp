@@ -30,21 +30,25 @@ Token ScannerClass::getNextToken()
     char next;
     TokenType type;
     std::string lexeme = "";
-    do {
+    do
+    {
         next = this->mFin.get();
         state = sm.UpdateState(next, type);
         lexeme += next;
-        if (state == START_STATE) {
+        if (state == START_STATE)
+        {
             lexeme = "";
         }
-        if (next == '\n' && state != CANTMOVE_STATE) {
+        if (next == '\n' && state != CANTMOVE_STATE)
+        {
             this->mLineNumber++;
         }
     } while (state != CANTMOVE_STATE);
 
     this->mFin.unget();
     lexeme.pop_back();
-    if (type == BAD_TOKEN) {
+    if (type == BAD_TOKEN)
+    {
         std::cout << "bad token parsed: " << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -53,11 +57,13 @@ Token ScannerClass::getNextToken()
     return tok;
 }
 
-Token ScannerClass::peekNextToken() {
+Token ScannerClass::peekNextToken()
+{
     std::streampos pos = mFin.tellg();
     int line = mLineNumber;
     Token token = getNextToken();
-    if (!mFin) {
+    if (!mFin)
+    {
         mFin.clear();
     }
     mFin.seekg(pos);

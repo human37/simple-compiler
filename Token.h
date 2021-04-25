@@ -66,12 +66,10 @@ public:
     TokenType GetTokenType() const;
     std::string GetLexeme() const;
 
-    // If this lexeme is one of the reserved words, then assign it that token
+    // if this lexeme is one of the reserved words, then assign it that token
     void CheckReserved();
 
     friend std::ostream &operator<<(std::ostream &out, const Token &tc);
 };
-
-// Outputs token type, name, and lexeme
 
 #endif // TOKEN_H

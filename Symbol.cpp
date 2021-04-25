@@ -31,7 +31,7 @@ int SymbolTableClass::GetValue(const std::string &s)
     int index = GetIndex(s);
     if (index != -1)
         return symbolTable[index].mValue;
-    else 
+    else
     {
         std::cout << "variable does not exist: " << s << std::endl;
         exit(EXIT_FAILURE);
@@ -59,6 +59,7 @@ int SymbolTableClass::GetIndex(const std::string &s)
     return -1;
 }
 
-int SymbolTableClass::GetCount() {
+int SymbolTableClass::GetCount()
+{
     return this->symbolTable.size();
 }
