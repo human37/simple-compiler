@@ -1,4 +1,6 @@
 void main()
 {
-    cout << 420;
+    int sum;
+    sum = 35 + 400;
+    cout << endl << sum << 3838 << endl;
 }

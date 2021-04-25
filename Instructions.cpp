@@ -125,7 +125,6 @@ void InstructionsClass::Execute()
 {
 	cout << "About to Execute the machine code..." << endl;
 	void *ptr = InstructionsClass::mCode;
-	cout << ptr << endl;
 	void (*f)(void);
 	f = (void (*)(void))ptr;
 	f();
