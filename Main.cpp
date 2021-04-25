@@ -61,7 +61,28 @@ void machineCode(std::string inputFilename)
     delete root;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    machineCode("input.c");
+    if (argc < 3)
+    {
+        std::cerr << "not enough parameters provided!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::string mode = argv[1];
+    std::string fileName = argv[2];
+    if (mode == "-i")
+    {
+        std::cout << "interpreting into c++..." << std::endl;
+        interpretCode(fileName);
+    }
+    else if (mode == "-c")
+    {
+        std::cout << "compiling to machine code..." << std::endl;
+        machineCode(fileName);
+    }
+    else
+    {
+        std::cerr << "unknown parameters were provided."
+    }
+    return 0;
 }
