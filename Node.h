@@ -129,12 +129,32 @@ public:
 class AssignmentStatementNode : public StatementNode
 {
 private:
-    IdentifierNode *IDNode;
-    ExpressionNode *expNode;
 
 public:
+    IdentifierNode *IDNode;
+    ExpressionNode *expNode;
     AssignmentStatementNode(IdentifierNode *in, ExpressionNode *en);
     ~AssignmentStatementNode();
+    void Code(InstructionsClass &machineCode);
+    void Interpret();
+};
+
+class PlusEqualsNode : public AssignmentStatementNode
+{
+private:
+
+public:
+    PlusEqualsNode(IdentifierNode *in, ExpressionNode *en);
+    void Code(InstructionsClass &machineCode);
+    void Interpret();
+};
+
+class MinusEqualsNode : public AssignmentStatementNode
+{
+private:
+
+public:
+    MinusEqualsNode(IdentifierNode *in, ExpressionNode *en);
     void Code(InstructionsClass &machineCode);
     void Interpret();
 };

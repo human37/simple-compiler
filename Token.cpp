@@ -20,6 +20,7 @@ const std::string gTokenTypeNames[] = {
     "NOT", "AND", "OR",
     "INSERTION", "EXTRACTION", "ASSIGNMENT",
     "PLUS", "MINUS", "MULTIPLY", "DIVIDE",
+    "PLUS_EQUALS", "MINUS_EQUALS",
     // Other token types
     "IDENTIFIER", "INTEGER",
     "BAD", "END_FILE"};
