@@ -1,6 +1,6 @@
 # simple-compiler
 
-A simple compiler written in C++. Can be configured to interpret source code to C++ or compile source code to machine code. Supports a subset of the C programming language. 
+A simple compiler written in C++. Can be configured to interpret to C++, or compile source code to machine code and execute. Supports a subset of the C programming language. 
 
 ### Features
 
