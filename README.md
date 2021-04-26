@@ -17,7 +17,7 @@ A simple compiler written in C++. Can be configured to interpret to C++, or comp
 </ul>
 
 Here is an example of some source code it currently supports:
-```
+```c
 void main()
 {
     // integers and math
