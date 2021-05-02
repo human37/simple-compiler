@@ -2,7 +2,7 @@ void main()
 {
     // integers and math
     int sum;
-    sum = (35 + 1) / (36 * 1) * (1 & 1);
+    sum = (35 + 1) / (36 * 1) * (1 || 1);
     cout << sum << endl;
 
     // cout statements
