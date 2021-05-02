@@ -30,6 +30,7 @@ public:
 	void PopPopAddPush(); // Puts resulting integer on stack
 	void PopPopSubPush();
 	void PopPopMulPush();
+	void RightShiftOp();
 	void PopPopDivPush();
 	void PopPopShiftRightPush();
 	// Relational Operators

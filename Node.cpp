@@ -462,7 +462,9 @@ int RightShiftNode::Evaluate()
 }
 void RightShiftNode::CodeEvaluate(InstructionsClass &machineCode)
 {
-    //TODO: implement
+    this->left->CodeEvaluate(machineCode);
+    this->right->CodeEvaluate(machineCode);
+    machineCode.RightShiftOp();
 }
 
 EqualNode::EqualNode(ExpressionNode *left, ExpressionNode *right)

@@ -20,12 +20,15 @@ const unsigned char EAX_TO_MEM = 0xA3; // A3 hex, Add 4 (or 8) byte address valu
 const unsigned char MEM_TO_EAX = 0xA1; // A1 hex, Add 4 (or 8) byte address value in reverse order
 
 const unsigned char POP_EBX = 0x5B;
+const unsigned char POP_ECX = 0x59;
 const unsigned char ADD_EAX_EBX1 = 0x03;
 const unsigned char ADD_EAX_EBX2 = 0xC3;
 const unsigned char SUB_EAX_EBX1 = 0x2B;
 const unsigned char SUB_EAX_EBX2 = 0xC3;
 const unsigned char MUL_EAX_EBX1 = 0xF7;
 const unsigned char MUL_EAX_EBX2 = 0xEB;
+const unsigned char SAR_EAX_ECX1 = 0xD3;
+const unsigned char SAR_EAX_ECX2 = 0xF8;
 const unsigned char DIV_EAX_EBX1 = 0xF7;
 const unsigned char DIV_EAX_EBX2 = 0xFB;
 const unsigned char CDQ = 0x99;
@@ -233,6 +236,15 @@ void InstructionsClass::PopPopMulPush()
 	Encode(POP_EAX);
 	Encode(MUL_EAX_EBX1);
 	Encode(MUL_EAX_EBX2);
+	Encode(PUSH_EAX);
+}
+
+void InstructionsClass::RightShiftOp()
+{
+	Encode(POP_ECX);
+	Encode(POP_EAX);
+	Encode(SAR_EAX_ECX1);
+	Encode(SAR_EAX_ECX2);
 	Encode(PUSH_EAX);
 }
 
