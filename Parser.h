@@ -25,6 +25,7 @@ private:
     CoutStatementNode *CoutStatement();
     ExpressionNode *Expression();
     ExpressionNode *Relational();
+    ExpressionNode *RightShift();
     ExpressionNode *PlusMinus();
     ExpressionNode *TimesDivide();
     ExpressionNode *Factor();

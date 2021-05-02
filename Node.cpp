@@ -454,6 +454,17 @@ void GreaterEqualNode::CodeEvaluate(InstructionsClass &machineCode)
     machineCode.PopPopGreaterEqualPush();
 }
 
+RightShiftNode::RightShiftNode(ExpressionNode *left, ExpressionNode *right)
+    : BinaryOperatorNode(left, right) {}
+int RightShiftNode::Evaluate()
+{
+    return this->left->Evaluate() >> this->right->Evaluate();
+}
+void RightShiftNode::CodeEvaluate(InstructionsClass &machineCode)
+{
+    //TODO: implement
+}
+
 EqualNode::EqualNode(ExpressionNode *left, ExpressionNode *right)
     : BinaryOperatorNode(left, right) {}
 int EqualNode::Evaluate()

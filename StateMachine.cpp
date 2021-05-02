@@ -49,7 +49,7 @@ StateMachine::StateMachine()
     this->legalMoves[LESS_STATE][LESS_CHAR] = INSERTION_STATE;
     this->legalMoves[START_STATE][GREATER_CHAR] = GREATER_STATE;
     this->legalMoves[GREATER_STATE][EQUALS_CHAR] = GREATER_EQUAL_STATE;
-    this->legalMoves[GREATER_STATE][GREATER_CHAR] = EXTRACTION_STATE;
+    this->legalMoves[GREATER_STATE][GREATER_CHAR] = RIGHT_SHIFT_STATE;
     this->legalMoves[START_STATE][NOT_CHAR] = NOT_STATE;
     this->legalMoves[NOT_STATE][EQUALS_CHAR] = NOT_EQUAL_STATE;
     this->legalMoves[START_STATE][SEMICOLON_CHAR] = SEMICOLON_STATE;
@@ -74,11 +74,11 @@ StateMachine::StateMachine()
     this->correspondingTokenTypes[LESS_EQUAL_STATE] = LESS_EQUAL_TOKEN;
     this->correspondingTokenTypes[GREATER_STATE] = GREATER_TOKEN;
     this->correspondingTokenTypes[GREATER_EQUAL_STATE] = GREATER_EQUAL_TOKEN;
+    this->correspondingTokenTypes[RIGHT_SHIFT_STATE] = RIGHT_SHIFT_TOKEN;
     this->correspondingTokenTypes[EQUALITY_STATE] = EQUAL_TOKEN;
     this->correspondingTokenTypes[NOT_EQUAL_STATE] = NOT_EQUAL_TOKEN;
     this->correspondingTokenTypes[NOT_STATE] = NOT_TOKEN;
     this->correspondingTokenTypes[INSERTION_STATE] = INSERTION_TOKEN;
-    this->correspondingTokenTypes[EXTRACTION_STATE] = EXTRACTION_TOKEN;
     this->correspondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
     this->correspondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
     this->correspondingTokenTypes[PLUS_EQUALS_STATE] = PLUS_EQUALS_TOKEN;

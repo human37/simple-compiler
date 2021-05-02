@@ -32,6 +32,7 @@ class LessNode;
 class LessEqualNode;
 class GreaterNode;
 class GreaterEqualNode;
+class RightShiftNode;
 class EqualNode;
 class NotEqualNode;
 class BitwiseAndNode;
@@ -368,6 +369,15 @@ public:
     GreaterEqualNode(ExpressionNode *left, ExpressionNode *right);
     int Evaluate();
     void CodeEvaluate(InstructionsClass &machineCode);
+};
+
+class RightShiftNode : public BinaryOperatorNode
+{
+    private:
+    public:
+        RightShiftNode(ExpressionNode *left, ExpressionNode *right);
+        int Evaluate();
+        void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class EqualNode : public BinaryOperatorNode

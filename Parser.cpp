@@ -241,34 +241,49 @@ ExpressionNode *Parser::BitwiseAnd()
 
 ExpressionNode *Parser::Relational()
 {
-    ExpressionNode *en = this->PlusMinus();
+    ExpressionNode *en = this->RightShift();
 
     TokenType t = this->scanner->peekNextToken().GetTokenType();
     switch (t)
     {
     case LESS_TOKEN:
         this->Match(t);
-        en = new LessNode(en, this->PlusMinus());
+        en = new LessNode(en, this->RightShift());
         break;
     case LESS_EQUAL_TOKEN:
         this->Match(t);
-        en = new LessEqualNode(en, this->PlusMinus());
+        en = new LessEqualNode(en, this->RightShift());
         break;
     case GREATER_TOKEN:
         this->Match(t);
-        en = new GreaterNode(en, this->PlusMinus());
+        en = new GreaterNode(en, this->RightShift());
         break;
     case GREATER_EQUAL_TOKEN:
         this->Match(t);
-        en = new GreaterEqualNode(en, this->PlusMinus());
+        en = new GreaterEqualNode(en, this->RightShift());
         break;
     case EQUAL_TOKEN:
         this->Match(t);
-        en = new EqualNode(en, this->PlusMinus());
+        en = new EqualNode(en, this->RightShift());
         break;
     case NOT_EQUAL_TOKEN:
         this->Match(t);
-        en = new NotEqualNode(en, this->PlusMinus());
+        en = new NotEqualNode(en, this->RightShift());
+        break;
+    }
+    return en;
+}
+
+ExpressionNode *Parser::RightShift()
+{
+    ExpressionNode *en = this->PlusMinus();
+
+    TokenType t = this->scanner->peekNextToken().GetTokenType();
+    switch (t)
+    {
+    case RIGHT_SHIFT_TOKEN:
+        this->Match(t);
+        en = new RightShiftNode(en, this->PlusMinus());
         break;
     }
     return en;
