@@ -30,6 +30,8 @@ private:
     ExpressionNode *Factor();
     IdentifierNode *Identifier();
     IntegerNode *Integer();
+    TrueNode *True();
+    FalseNode *False();
     ExpressionNode *And();
     ExpressionNode *Or();
     ExpressionNode *BitwiseAnd();

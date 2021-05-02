@@ -332,6 +332,12 @@ ExpressionNode *Parser::Factor()
     case INTEGER_TOKEN:
         en = this->Integer();
         break;
+    case TRUE_TOKEN:
+        en = this->True();
+        break;
+    case FALSE_TOKEN:
+        en = this->False();
+        break;
     case LEFT_PAREN_TOKEN:
         this->Match(LEFT_PAREN_TOKEN);
         en = this->Expression();
@@ -355,4 +361,16 @@ IntegerNode *Parser::Integer()
     Token t = this->Match(INTEGER_TOKEN);
     int i = atoi(t.GetLexeme().c_str());
     return new IntegerNode(i);
+}
+
+TrueNode *Parser::True()
+{
+    Token t = this->Match(TRUE_TOKEN);
+    return new TrueNode();
+}
+
+FalseNode *Parser::False()
+{
+    Token t = this->Match(FALSE_TOKEN);
+    return new FalseNode();
 }

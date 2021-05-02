@@ -15,6 +15,8 @@ class DeclarationStatementNode;
 class DeclarationAssignmentStatementNode;
 class AssignmentStatementNode;
 class IfStatementNode;
+class TrueNode;
+class FalseNode;
 class WhileStatementNode;
 class ForStatementNode;
 class CoutStatementNode;
@@ -240,6 +242,22 @@ public:
     virtual ~ExpressionNode();
     virtual int Evaluate() = 0;
     virtual void CodeEvaluate(InstructionsClass &machineCode) = 0;
+};
+
+class TrueNode : public ExpressionNode
+{
+public:
+    TrueNode();
+    int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
+};
+
+class FalseNode : public ExpressionNode
+{
+public:
+    FalseNode();
+    int Evaluate();
+    void CodeEvaluate(InstructionsClass &machineCode);
 };
 
 class IntegerNode : public ExpressionNode
