@@ -229,6 +229,34 @@ void WhileStatementNode::Code(InstructionsClass &machineCode)
     machineCode.SetOffset(insertAddressJump, (int)(address1 - address3));
 }
 
+DoStatementNode::DoStatementNode(ExpressionNode *en, BlockNode *bn)
+    : expNode(en), blockNode(bn) {}
+DoStatementNode::~DoStatementNode()
+{
+    delete this->expNode;
+    delete this->blockNode;
+}
+void DoStatementNode::Interpret()
+{
+    do
+    {
+        this->blockNode->Interpret();
+    }
+    while (this->expNode->Evaluate());
+}
+void DoStatementNode::Code(InstructionsClass &machineCode)
+{
+    unsigned char *address1 = machineCode.GetAddress();
+    this->expNode->CodeEvaluate(machineCode);
+    unsigned char *insertAddressSkip = machineCode.SkipIfZeroStack();
+    unsigned char *address2 = machineCode.GetAddress();
+    this->blockNode->Code(machineCode);
+    unsigned char *insertAddressJump = machineCode.Jump();
+    unsigned char *address3 = machineCode.GetAddress();
+    machineCode.SetOffset(insertAddressSkip, (int)(address3 - address2));
+    machineCode.SetOffset(insertAddressJump, (int)(address1 - address3));
+}
+
 ForStatementNode::ForStatementNode(
     StatementNode *initializer,
     ExpressionNode *comparison,

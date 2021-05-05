@@ -21,6 +21,7 @@ private:
     AssignmentStatementNode *AssignmentStatement();
     IfStatementNode *IfStatement();
     WhileStatementNode *WhileStatement();
+    DoStatementNode *DoStatement();
     ForStatementNode *ForStatement();
     CoutStatementNode *CoutStatement();
     ExpressionNode *Expression();

@@ -85,6 +85,8 @@ StatementNode *Parser::Statement()
         return this->ForStatement();
     case COUT_TOKEN:
         return this->CoutStatement();
+    case DO_TOKEN:
+        return this->DoStatement();
     }
     return NULL;
 }
@@ -166,6 +168,18 @@ WhileStatementNode *Parser::WhileStatement()
     this->Match(RIGHT_PAREN_TOKEN);
     BlockNode *bn = this->Block();
     return new WhileStatementNode(en, bn);
+}
+
+DoStatementNode *Parser::DoStatement()
+{
+    this->Match(DO_TOKEN);
+    BlockNode *bn = this->Block();
+    this->Match(WHILE_TOKEN);
+    this->Match(LEFT_PAREN_TOKEN);
+    ExpressionNode *en = this->Expression();
+    this->Match(RIGHT_PAREN_TOKEN);
+    this->Match(SEMICOLON_TOKEN);
+    return new DoStatementNode(en, bn);
 }
 
 ForStatementNode *Parser::ForStatement()

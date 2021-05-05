@@ -16,6 +16,7 @@ class DeclarationAssignmentStatementNode;
 class AssignmentStatementNode;
 class IfStatementNode;
 class WhileStatementNode;
+class DoStatementNode;
 class ForStatementNode;
 class CoutStatementNode;
 class ExpressionNode;
@@ -194,6 +195,20 @@ public:
     void Code(InstructionsClass &machineCode);
     void Interpret();
 };
+
+class DoStatementNode : public StatementNode
+{
+private:
+    ExpressionNode *expNode;
+    BlockNode *blockNode;
+
+public:
+    DoStatementNode(ExpressionNode *en, BlockNode *bn);
+    ~DoStatementNode();
+    void Code(InstructionsClass &machineCode);
+    void Interpret();
+};
+
 class ForStatementNode : public StatementNode
 {
 private:
