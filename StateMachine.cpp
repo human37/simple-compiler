@@ -44,6 +44,7 @@ StateMachine::StateMachine()
     this->legalMoves[BLOCK_COMMENT_ENDING_STATE][STAR_CHAR] = BLOCK_COMMENT_ENDING_STATE;
     this->legalMoves[BLOCK_COMMENT_ENDING_STATE][FORWARD_SLASH_CHAR] = START_STATE;
     this->legalMoves[START_STATE][STAR_CHAR] = MULTIPLY_STATE;
+    this->legalMoves[MULTIPLY_STATE][EQUALS_CHAR] = MULTIPLY_BY_STATE;
     this->legalMoves[START_STATE][LESS_CHAR] = LESS_STATE;
     this->legalMoves[LESS_STATE][EQUALS_CHAR] = LESS_EQUAL_STATE;
     this->legalMoves[LESS_STATE][LESS_CHAR] = INSERTION_STATE;
@@ -82,6 +83,7 @@ StateMachine::StateMachine()
     this->correspondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
     this->correspondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
     this->correspondingTokenTypes[PLUS_EQUALS_STATE] = PLUS_EQUALS_TOKEN;
+    this->correspondingTokenTypes[MULTIPLY_BY_STATE] = MULTIPLY_BY_TOKEN;
     this->correspondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
     this->correspondingTokenTypes[MINUS_EQUALS_STATE] = MINUS_EQUALS_TOKEN;
     this->correspondingTokenTypes[MULTIPLY_STATE] = MULTIPLY_TOKEN;

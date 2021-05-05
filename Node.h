@@ -149,6 +149,16 @@ public:
     void Interpret();
 };
 
+class MultiplyByNode : public AssignmentStatementNode
+{
+private:
+
+public:
+    MultiplyByNode(IdentifierNode *in, ExpressionNode *en);
+    void Code(InstructionsClass &machineCode);
+    void Interpret();
+};
+
 class MinusEqualsNode : public AssignmentStatementNode
 {
 private:

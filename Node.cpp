@@ -146,6 +146,22 @@ void PlusEqualsNode::Code(InstructionsClass &machineCode)
     machineCode.PopAndStore(index);
 }
 
+MultiplyByNode::MultiplyByNode(IdentifierNode *in, ExpressionNode *en)
+    : AssignmentStatementNode(in, en) {}
+void MultiplyByNode::Interpret()
+{
+    int val = this->IDNode->Evaluate() * this->expNode->Evaluate();
+    this->IDNode->SetValue(val);
+}
+void MultiplyByNode::Code(InstructionsClass &machineCode)
+{
+    int index = this->IDNode->GetIndex();
+    machineCode.PushVariable(index);
+    this->expNode->CodeEvaluate(machineCode);
+    machineCode.PopPopMulPush();
+    machineCode.PopAndStore(index);
+}
+
 MinusEqualsNode::MinusEqualsNode(IdentifierNode *in, ExpressionNode *en)
     : AssignmentStatementNode(in, en) {}
 void MinusEqualsNode::Interpret()

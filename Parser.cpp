@@ -132,6 +132,13 @@ AssignmentStatementNode *Parser::AssignmentStatement()
         this->Match(SEMICOLON_TOKEN);
         return new PlusEqualsNode(in, en);
     }
+    else if (this->scanner->peekNextToken().GetTokenType() == MULTIPLY_BY_TOKEN)
+    {
+        this->Match(MULTIPLY_BY_TOKEN);
+        ExpressionNode *en = this->Expression();
+        this->Match(SEMICOLON_TOKEN);
+        return new MultiplyByNode(in, en);
+    }
     else
     {
         this->Match(MINUS_EQUALS_TOKEN);
