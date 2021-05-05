@@ -214,7 +214,7 @@ ExpressionNode *Parser::Or()
 {
     ExpressionNode *current = And();
     TokenType tt = this->scanner->peekNextToken().GetTokenType();
-    if (tt == OR_TOKEN)
+    if (tt == OR_TOKEN || tt == OR_WORD_TOKEN)
     {
         Match(tt);
         current = new OrNode(current, Factor());
@@ -226,7 +226,7 @@ ExpressionNode *Parser::And()
 {
     ExpressionNode *current = BitwiseAnd();
     TokenType tt = this->scanner->peekNextToken().GetTokenType();
-    if (tt == AND_TOKEN)
+    if (tt == AND_TOKEN || tt == AND_WORD_TOKEN)
     {
         Match(tt);
         current = new AndNode(current, Factor());
